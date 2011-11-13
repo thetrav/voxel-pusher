@@ -6,4 +6,7 @@ case class Coord(x:Int, y:Int) {
 
   def +(o:Coord) = Coord(x+o.x, y+o.y)
   def -(o:Coord) = Coord(x-o.x, y-o.y)
+
+  def snap(i:Int) = Coord(snapInt(x,i), snapInt(y,i))
+  private def snapInt(i:Int, s:Int) = i - (i%s)
 }

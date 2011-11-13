@@ -3,7 +3,7 @@ package the.trav.vp
 import collection.mutable.Map
 
 object World {
-  var pickTerrain = (c:Coord) => if (math.random > 0.2) Dirt else Open //exposed as var for testing only
+  var pickTerrain = (c:Coord) => if (math.random > 0.3) Dirt else Open //exposed as var for testing only
   var discovered = Map[Coord, Terrain]()
 
   val tileSize = 30
@@ -24,8 +24,12 @@ object World {
   }
 
   def growEdges {
-    var edges = edgesToGrow
-    while(!edges.isEmpty) edges = grow(edges)
+    growAll(edgesToGrow)
+  }
+
+  def growAll(edges:Iterable[Coord]) {
+    var next = edges
+    while(!next.isEmpty) next = grow(next)
   }
 
   def grow(edges:Iterable[Coord]) = {
