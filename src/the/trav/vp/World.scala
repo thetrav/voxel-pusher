@@ -27,9 +27,30 @@ object World {
     growAll(edgesToGrow)
   }
 
+  def cleanEdges {
+    discovered.map((t) => {
+      val n = orthagonalNeighbors(t._1)
+      if(n.filterNot((n) => discovered.contains(n)).isEmpty){
+        t._2 match {
+          case Open => {
+            if (n.filter((c) => discovered(c) == Open).isEmpty) {
+              discovered.put(t._1, Dirt)
+            }
+          }
+          case _ => {
+            if (n.filter((c) => discovered(c) != Open).isEmpty) {
+              discovered.put(t._1,Open)
+            }
+          }
+        }
+      }
+    })
+  }
+
   def growAll(edges:Iterable[Coord]) {
     var next = edges
     while(!next.isEmpty) next = grow(next)
+    cleanEdges
   }
 
   def grow(edges:Iterable[Coord]) = {
@@ -54,9 +75,13 @@ object World {
     neighborCoords(c).filter (!discovered.contains(_))
   }
 
+  def dirToCoord(c:Coord,  d:Direction) = c + d.unitVector*tileSize
+
   def neighborCoords(c:Coord) = {
-    val f = (n:Direction) => {c + n.unitVector*tileSize}
-    val ns = Set[Direction](North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest)
-    ns.map(f)
+    Set[Direction](North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest).map(dirToCoord(c, _))
+  }
+
+  def orthagonalNeighbors(c:Coord) = {
+    Set[Direction](North, East, South, West).map(dirToCoord(c, _))
   }
 }
