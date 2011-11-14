@@ -78,10 +78,10 @@ object World {
   def dirToCoord(c:Coord,  d:Direction) = c + d.unitVector*tileSize
 
   def neighborCoords(c:Coord) = {
-    Set[Direction](North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest).map(dirToCoord(c, _))
+    List[Direction](North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest).map(dirToCoord(c, _))
   }
 
   def orthagonalNeighbors(c:Coord) = {
-    Set[Direction](North, East, South, West).map(dirToCoord(c, _))
+    List[Direction](North, East, South, West).map(dirToCoord(c, _))
   }
 }

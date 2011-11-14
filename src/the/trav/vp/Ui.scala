@@ -52,6 +52,7 @@ class Ui {
           case KeyEvent.VK_DOWN => South
           case KeyEvent.VK_LEFT => East
           case KeyEvent.VK_RIGHT => West
+          case KeyEvent.VK_ESCAPE => System.exit(0); West
         }
         camPos += (dir.unitVector*World.tileSize)
         panel.invalidate()
@@ -81,6 +82,15 @@ class Ui {
 
       g.setColor(Color.red)
       g.drawRect(mousePos.x, mousePos.y, World.tileSize, World.tileSize)
+    })
+
+
+    var i = 0
+    Polygoniser.shape.map((c:Coord) => {
+      g.setColor(Color.orange)
+      g.drawRect(c.x, c.y, World.tileSize, World.tileSize)
+      g.drawString(""+i, c.x+2, c.y+World.tileSize/2)
+      i+=1
     })
 
     g.setTransform(new AffineTransform())
