@@ -86,15 +86,24 @@ class Ui {
 
 
     var i = 0
-    Polygoniser.shape.map((c:Coord) => {
-      g.setColor(Color.orange)
-      g.drawRect(c.x, c.y, World.tileSize, World.tileSize)
+    val shape:List[Coord] = Polygoniser.shape
+
+    def draw(c:Coord, color:Color) = {
+      g.setColor(color)
+      g.fillRect(c.x, c.y, World.tileSize/2, World.tileSize/2)
       g.drawString(""+i, c.x+2, c.y+World.tileSize/2)
       i+=1
+    }
+
+    shape.foreach((c:Coord) => {
+      draw(c, Color.orange)
     })
+    draw(shape.last, Color.green)
+    draw(shape.head, Color.red)
 
     g.setTransform(new AffineTransform())
     g.setColor(Color.green)
     g.drawString("camPos:"+camPos, 10,10)
+    g.drawString("shape:"+shape, 10,30)
   }
 }

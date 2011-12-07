@@ -28,7 +28,7 @@ object World {
   }
 
   def cleanEdges {
-    discovered.map((t) => {
+    discovered.foreach((t) => {
       val n = orthagonalNeighbors(t._1)
       if(n.filterNot((n) => discovered.contains(n)).isEmpty){
         t._2 match {
@@ -43,6 +43,13 @@ object World {
             }
           }
         }
+      }
+    })
+    //only need blocks of dirt on edges
+    discovered.foreach((t) => {
+      if (t._2 != Open) {
+        val n = neighborCoords(t._1)
+        if (n.filter(p => discovered.contains(p)).filter(p => discovered(p) == Open).isEmpty) discovered.remove(t._1)
       }
     })
   }
